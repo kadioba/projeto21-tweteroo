@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { SignUpUserDto } from './dtos/user.dto';
+import { PostTweet } from './dtos/tweet.dto';
 
 @Controller()
 export class AppController {
@@ -8,5 +10,19 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post('/sign-up')
+  signUp(@Body() body: SignUpUserDto) {
+    return this.appService.signUp(body);
+  }
+
+  @Post('/tweets')
+  postTweet(@Body() body: PostTweet) {
+    try {
+      return this.appService.postTweet(body);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
+    }
   }
 }

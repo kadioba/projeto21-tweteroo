@@ -1,4 +1,4 @@
-import User from './user';
+import User from './user.entity';
 
 export default class Tweet {
   private user: User;
