@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { SignUpUserDto } from './dtos/user.dto';
 import { PostTweet } from './dtos/tweet.dto';
@@ -24,5 +32,16 @@ export class AppController {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
+  }
+
+  @Get('/tweets')
+  getTweets(@Query('page') page?: number) {
+    if (page && page < 1) {
+      throw new HttpException(
+        'Informe uma página válida!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return this.appService.getTweets(page);
   }
 }

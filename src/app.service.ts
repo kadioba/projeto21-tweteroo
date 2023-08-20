@@ -27,4 +27,12 @@ export class AppService {
     }
     this.tweets.push(new Tweet(userExists, body.tweet));
   }
+
+  getTweets(page?: number) {
+    const orderedTweets = this.tweets.reverse();
+    if (page) {
+      return this.tweets.slice((page - 1) * 15, page * 15);
+    }
+    return orderedTweets.slice(0, 15);
+  }
 }
