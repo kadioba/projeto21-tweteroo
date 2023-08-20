@@ -6,21 +6,22 @@ import { PostTweet } from './dtos/tweet.dto';
 
 @Injectable()
 export class AppService {
-  private users: User[];
-  private tweets: Tweet[];
+  private users: User[] = [];
+  private tweets: Tweet[] = [];
 
-  getHello(): string {
-    return 'Hello World!';
+  getHealth(): string {
+    return "I'm okay!";
   }
 
   signUp(body: SignUpUserDto) {
-    this.users.push(new User(body.username, body.avatar));
+    const user = new User(body.username, body.avatar);
+    return this.users.push(user);
   }
 
   postTweet(body: PostTweet) {
     // A propriedade username de user é privada, para isso devemos criar um getter
     const userExists = this.users.find((user) => {
-      user.username === body.username;
+      return user.username === body.username;
     });
     if (!userExists) {
       throw { message: 'User not found' };
@@ -30,16 +31,30 @@ export class AppService {
 
   getTweets(page?: number) {
     const orderedTweets = this.tweets.reverse();
-    if (page) {
-      return this.tweets.slice((page - 1) * 15, page * 15);
-    }
-    return orderedTweets.slice(0, 15);
+    const selectedTweets = page
+      ? orderedTweets.slice((page - 1) * 15, page * 15)
+      : orderedTweets.slice(0, 15);
+    const refinedTweets = selectedTweets.map((tweet) => {
+      return {
+        username: tweet.user.username,
+        avatar: tweet.user.avatar,
+        tweet: tweet.tweet,
+      };
+    });
+    return refinedTweets;
   }
 
   getUserTweets(username: string) {
     const filteredTweets = this.tweets.filter((tweet) => {
       return tweet.user.username === username;
     });
-    return filteredTweets;
+    const refinedTweets = filteredTweets.map((tweet) => {
+      return {
+        username: tweet.user.username,
+        avatar: tweet.user.avatar,
+        tweet: tweet.tweet,
+      };
+    });
+    return refinedTweets;
   }
 }

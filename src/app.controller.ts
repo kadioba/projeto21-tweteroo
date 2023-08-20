@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   HttpException,
   HttpStatus,
   Param,
@@ -17,11 +18,12 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHealth(): string {
+    return this.appService.getHealth();
   }
 
   @Post('/sign-up')
+  @HttpCode(200)
   signUp(@Body() body: SignUpUserDto) {
     return this.appService.signUp(body);
   }
