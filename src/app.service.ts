@@ -35,4 +35,11 @@ export class AppService {
     }
     return orderedTweets.slice(0, 15);
   }
+
+  getUserTweets(username: string) {
+    const filteredTweets = this.tweets.filter((tweet) => {
+      return tweet.user.username === username;
+    });
+    return filteredTweets;
+  }
 }
