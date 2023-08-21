@@ -39,7 +39,7 @@ export class AppController {
 
   @Get('/tweets')
   getTweets(@Query('page') page?: number) {
-    if (page && page < 1) {
+    if (page && (page < 1 || isNaN(page))) {
       throw new HttpException(
         'Informe uma página válida!',
         HttpStatus.BAD_REQUEST,
