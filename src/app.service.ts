@@ -30,31 +30,24 @@ export class AppService {
   }
 
   getTweets(page?: number) {
-    const orderedTweets = this.tweets.reverse();
-    const selectedTweets = page
-      ? orderedTweets.slice((page - 1) * 15, page * 15)
-      : orderedTweets.slice(0, 15);
-    const refinedTweets = selectedTweets.map((tweet) => {
-      return {
+    return this.tweets
+      .reverse()
+      .slice((page ? page - 1 : 0) * 15, page ? page * 15 : 15)
+      .map((tweet) => ({
         username: tweet.user.username,
         avatar: tweet.user.avatar,
         tweet: tweet.tweet,
-      };
-    });
-    return refinedTweets;
+      }));
   }
 
   getUserTweets(username: string) {
-    const filteredTweets = this.tweets.filter((tweet) => {
-      return tweet.user.username === username;
-    });
-    const refinedTweets = filteredTweets.map((tweet) => {
-      return {
+    return this.tweets
+      .reverse()
+      .filter((tweet) => tweet.user.username === username)
+      .map((tweet) => ({
         username: tweet.user.username,
         avatar: tweet.user.avatar,
         tweet: tweet.tweet,
-      };
-    });
-    return refinedTweets;
+      }));
   }
 }
