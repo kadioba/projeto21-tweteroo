@@ -2,72 +2,168 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Documentação da API Tweteroo
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Descrição
 
-## Description
+Bem-vindo à documentação da API **Tweteroo**! Esta API permite que os usuários registrem-se, enviem tweets, acessem tweets recentes, e obtenham tweets de um usuário específico. A API é construída com o framework NestJS e utiliza TypeScript para programação orientada a objetos.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## URL de acesso
 
-## Installation
+A base URL para todas as chamadas à API é: https://endereco-de-deploy.com
 
-```bash
-$ npm install
-```
+## Endpoints
 
-## Running the app
+### SignUp
+Endpoint para registrar um novo usuário na memória.
 
-```bash
-# development
-$ npm run start
+- **URL**: /signup
+- **Método**: POST
+- **Headers**: N/A
+- **Corpo da Requisição**:
+  ```json
+  {
+    "username": "exemplo_usuario",
+    "avatar": "https://link-do-seu-avatar.com/avatar.jpg",
+  }
+  ```
+- **Resposta de Sucesso**:
+  - **Código**: 200 Ok
+- **Resposta de Erro**:
+  - **Código**: 400 Bad Request
+  - **Corpo da Resposta**:
+    ```json
+    {
+      "error": "Detalhes do erro de validação"
+    }
+    ```
 
-# watch mode
-$ npm run start:dev
+### Post Tweet
+Endpoint para um usuário enviar um novo tweet para a memória.
 
-# production mode
-$ npm run start:prod
-```
+- **URL**: /tweets
+- **Método**: POST
+- **Headers**: N/A
+- **Corpo da Requisição**:
+  ```json
+  {
+    "username": "exemplo_usuario",
+    "tweet": "Seu tweet",
+  }
+  ```
+- **Resposta de Sucesso**:
+  - **Código**: 201 Created
+- **Resposta de Erro**:
+  - **Código**: 400 Bad Request
+  - **Corpo da Resposta**:
+    ```json
+    {
+      "error": "Detalhes do erro de validação"
+    }
+    ``````
+  - **Código**: 401 Unauthorized
+  - **Corpo da Resposta**:
+    ```json
+    {
+      "error": "Detalhes do erro de validação"
+    }
+    ``````
 
-## Test
+### Get Tweets
+Endpoint para obter os últimos 15 tweets enviados, com opção de paginação.
 
-```bash
-# unit tests
-$ npm run test
+- **URL**: /tweets
+- **Método**: GET
+- **Headers**: N/A
+- **Parametros de consulta**:
+  - **page**: Número da página (opcional)
+- **Resposta de Sucesso**:
+  - **Código**: 200 Ok
+  - **Corpo da Resposta**:
+    ```json
+    [
+      {
+        username: "exemplo_usuario",
+        avatar: "https://cdn.shopify.com/s/files/1/0150/0643/3380/files/Screen_Shot_2019-07-01_at_11.35.42_AM_370x230@2x.png",
+        tweet: "Tweet do usuario",
+      }, {}, {}, ...
+    ]
+    ```
+- **Resposta de Erro**:
+  - **Código**: 400 Bad Request
+  - **Corpo da Resposta**:
+    ```json
+    {
+      "error": "Detalhes do erro de validação"
+    }
+    ``````
 
-# e2e tests
-$ npm run test:e2e
+### Get User Tweets
+Endpoint para obter todos os tweets de um usuário específico.
 
-# test coverage
-$ npm run test:cov
-```
+- **URL**: /tweets/:username
+- **Método**: GET
+- **Headers**: N/A
+- **Resposta de Sucesso**:
+  - **Código**: 200 Ok
+  - **Corpo da Resposta**:
+    ```json
+    [
+      {
+        username: "usuario_x",
+        avatar: "https://avatars.akamai.steamstatic.com/d322ffa327f56fcebc08ac76b340742b930648c8_full.jpg"
+        tweet: "I'm ready!"
+      },
+      {
+        username: "usuario_x",
+        avatar: "https://avatars.akamai.steamstatic.com/d322ffa327f56fcebc08ac76b340742b930648c8_full.jpg"
+        tweet: "I'm tweeting!"
+      }
+    ]
+    ```
+- **Resposta de Erro**:
+  - **Código**: 400 Bad Request
+  - **Corpo da Resposta**:
+    ```json
+    {
+      "error": "Detalhes do erro de validação"
+    }
+    ``````
 
-## Support
+## Copiando o Projeto do GitHub e Iniciando Localmente
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Aqui estão os passos para copiar o projeto do GitHub, iniciar na sua máquina e utilizá-lo como servidor local.
 
-## Stay in touch
+## Pré-requisitos
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Antes de começar, certifique-se de ter o Node.js e o npm instalados em sua máquina.
 
-## License
+## Passos
 
-Nest is [MIT licensed](LICENSE).
+1. **Clone o Repositório:**
+   Abra o terminal e navegue até o diretório onde deseja colocar o projeto. Em seguida, execute o seguinte comando para clonar o repositório do GitHub:
+
+   ```bash
+   git clone https://github.com/seu-usuario/projeto21-tweteroo.git
+   ```
+2. **Navegue até a pasta do projeto:**
+   Abra o terminal e navegue até a pasta do projeto. Execute o seguinte comando para navegar até a pasta do projeto:
+
+   ```bash
+   cd projeto21-tweteroo
+   ```
+3. **Instale as dependências:**
+   Execute o seguinte comando para instalar as dependências:
+
+   ```bash  
+   npm install
+   ```
+4. **Inicie o Servidor:**
+   Execute o seguinte comando para iniciar o servidor em modo de Desenvolvimento:
+   
+   ```bash
+   npm run start
+   ```
+5. **Acesse a API Localmente:**
+  Agora você pode acessar a API localmente através do navegador ou de ferramentas como o Postman. A base URL será http://localhost:3000.
+
