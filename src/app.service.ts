@@ -6,8 +6,13 @@ import { PostTweet } from './dtos/tweet.dto';
 
 @Injectable()
 export class AppService {
-  private users: User[] = [];
-  private tweets: Tweet[] = [];
+  private users: User[];
+  private tweets: Tweet[];
+
+  constructor() {
+    this.users = [];
+    this.tweets = [];
+  }
 
   getHealth(): string {
     return "I'm okay!";
